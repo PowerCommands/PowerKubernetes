@@ -1,8 +1,6 @@
 using System.Text;
-
 namespace PainKiller.PowerCommands.KubernetesCommands.Commands;
 
-[PowerCommandTest(         tests: " ")]
 [PowerCommandDesign( description: "Description of your command...",
                          example: "demo")]
 public class ArgocdCommand : CommandBase<PowerCommandsConfiguration>
@@ -12,7 +10,7 @@ public class ArgocdCommand : CommandBase<PowerCommandsConfiguration>
     public override RunResult Run()
     {
         ShellService.Service.Execute("kubectl", "port-forward svc/argocd-server -n argocd 8080:443", "", WriteLine, "", useShellExecute: true);
-        ShellService.Service.Execute("kubectl", "-n argocd get secret argocd-initial-admin-secret -o jsonpath=\"{.data.password}\"", "", ReadLine, "", waitForExit: true);
+        ShellService.Service.Execute("kubectl", "-n argocd get secret argocd-initial-admin-secret -o jsonpath=\"{.data.password}\"", "", ReadLine, "", waitForExit: true, disableOutputLogging: true);
         var decoded = Encoding.UTF8.GetString(Convert.FromBase64String(LastReadLine));
         
         Console.WriteLine($"argocd-initial-admin-secret:");
