@@ -17,9 +17,6 @@ public class PublishCommand : CommandBase<PowerCommandsConfiguration>
         var nspace = GetOptionValue("namespace");
         var dirInfo = new DirectoryInfo(path);
 
-        //var babar = new ProcessMetadata { Name = "\"{{babar}}\"" };
-        //StorageService<ProcessMetadata>.Service.StoreObject(babar);
-
         if (string.IsNullOrEmpty(name) && dirInfo.Exists)
         {
             WriteHeadLine("Kubernetes projects");
