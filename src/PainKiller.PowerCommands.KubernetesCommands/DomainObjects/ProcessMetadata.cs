@@ -8,5 +8,7 @@ public class ProcessMetadata
     public bool UseShellExecute { get; set; }
     public bool WaitForExit { get; set; }
     public bool DisableOutputLogging { get; set; }
+    public bool Base64Decode { get; set; }
+    public int WaitSec { get; set; }
     public bool UseReadline { get; set; }
 }

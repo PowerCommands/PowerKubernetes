@@ -4,15 +4,15 @@ using System.Text;
 namespace PainKiller.PowerCommands.KubernetesCommands.Commands;
 
 [PowerCommandDesign( description: "Publish your kubernetes application(s)",
-                         options: "!name|!namespace",
-                         example: "publish --name bootcamp")]
+                         options: "!namespace",
+                         example: "publish dashboard")]
 public class PublishCommand : CommandBase<PowerCommandsConfiguration>
 {
     public PublishCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
 
     public override RunResult Run()
     {
-        var name = GetOptionValue("name");
+        var name = Input.SingleArgument;
         var path = Path.Combine(Configuration.KubernetesDeploymentFilesRoot, name);
         var nspace = GetOptionValue("namespace");
         var dirInfo = new DirectoryInfo(path);
@@ -37,27 +37,29 @@ public class PublishCommand : CommandBase<PowerCommandsConfiguration>
             ShellService.Service.Execute("kubectl",$"apply {nmnSpace} -f {fileInfo.FullName}",dirInfo.FullName, WriteLine,"", waitForExit: true);
             WriteSuccessLine($"{fileInfo.Name} applied OK");
         }
-
-        if (!string.IsNullOrEmpty(nspace))
-        {
-            ShellService.Service.Execute("kubectl",$"config set-context --current --namespace={nspace}","", WriteLine,"", waitForExit: true);
-            nspace = $"-n {nspace}";
-        }
-        ShellService.Service.Execute("kubectl", $"get services {nspace}", dirInfo.FullName, WriteLine, "", waitForExit: true);
-
         var jsonFiles = Directory.GetFiles(path, "*.json").OrderBy(f => f).ToList();
         foreach (var fileName in jsonFiles)
         {
             var fileInfo = new FileInfo(fileName);
             var processMetadata = StorageService<ProcessMetadata>.Service.GetObject(fileName);
+            if (processMetadata.WaitSec > 0)
+            {
+                for (int i = 0; i < processMetadata.WaitSec; i++)
+                {
+                    OverwritePreviousLine($"Waiting a {processMetadata.WaitSec-i} seconds, before executing [{processMetadata.Description}] ...");
+                    Thread.Sleep(1000);
+                }
+            }
+            WriteLine(processMetadata.Description);
+            WriteSuccessLine($"{fileInfo.Name} executed OK");
             if (string.IsNullOrEmpty(processMetadata.Url))
             {
                 var applicationName = processMetadata.Name.Replace(".exe", "").Replace(".bat", "").Replace(".cmd", "");
                 if (processMetadata.UseReadline)
                 {
                     ShellService.Service.Execute(applicationName, processMetadata.Args, dirInfo.FullName, ReadLine, "", waitForExit: processMetadata.WaitForExit, useShellExecute: processMetadata.UseShellExecute, disableOutputLogging: processMetadata.DisableOutputLogging);
-                    var decoded = Encoding.UTF8.GetString(Convert.FromBase64String(LastReadLine));
-                    Console.WriteLine(decoded);
+                    var token = processMetadata.Base64Decode ?  Encoding.UTF8.GetString(Convert.FromBase64String(LastReadLine)) : LastReadLine;
+                    Console.WriteLine(token);
                 }
                 else ShellService.Service.Execute(applicationName, processMetadata.Args, dirInfo.FullName, WriteLine, "", waitForExit: processMetadata.WaitForExit, useShellExecute: processMetadata.UseShellExecute, disableOutputLogging: processMetadata.DisableOutputLogging);
             }
@@ -66,9 +68,14 @@ public class PublishCommand : CommandBase<PowerCommandsConfiguration>
                 var url = processMetadata.Url.Replace(".exe", "").Replace(".bat", "").Replace(".cmd", "");
                 ShellService.Service.OpenWithDefaultProgram(url);
             }
-            WriteLine(processMetadata.Description);
-            WriteSuccessLine($"{fileInfo.Name} executed OK");
         }
+
+        if (!string.IsNullOrEmpty(nspace))
+        {
+            ShellService.Service.Execute("kubectl",$"config set-context --current --namespace={nspace}","", WriteLine,"", waitForExit: true);
+            nspace = $"-n {nspace}";
+        }
+        ShellService.Service.Execute("kubectl", "get services", dirInfo.FullName, WriteLine, "", waitForExit: true);
         return Ok();
     }
 }
