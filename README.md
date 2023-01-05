@@ -11,7 +11,7 @@ k config set-context --current --namespace=default
 ## Publish
 With this commando you can publish or delete your kubernetes "projects". A project in this context means a bunch of kubernetes manifest files in yaml format and if you want a bunch of PowerCommand specific files to run kubectl commands, for example to start port forwarding proxy or open a browser with a specific url. They are group together by you or someone else because they should be deployed together for som reason.
 
-If you have clone this repo and started your [Power Kubernetes Client] you can start with find out witch projects you have by running this command.
+If you have clone this repo and started your [Power Kubernetes Client](./src/) you can start with find out witch projects you have by running this command.
 ```
 publish
 ```
