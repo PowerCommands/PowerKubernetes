@@ -1,10 +1,12 @@
 using PainKiller.PowerCommands.KubernetesCommands.DomainObjects;
+using System.IO;
+using System.Runtime;
 using System.Text;
 
 namespace PainKiller.PowerCommands.KubernetesCommands.Commands;
 
 [PowerCommandDesign( description: "Publish your kubernetes application(s)",
-                         options: "!namespace",
+                         options: "delete|!namespace",
                          example: "publish dashboard")]
 public class PublishCommand : CommandBase<PowerCommandsConfiguration>
 {
@@ -26,7 +28,13 @@ public class PublishCommand : CommandBase<PowerCommandsConfiguration>
             }
             return Ok();
         }
+        if(HasOption("delete")) UnPublish(path, dirInfo, nspace);
+        else Publish(path, dirInfo, nspace);
+        return Ok();
+    }
 
+    private void Publish(string path, DirectoryInfo dirInfo, string nspace)
+    {
         var yamlFiles = Directory.GetFiles(path, "*.yaml").OrderBy(f => f).ToList();
         foreach (var fileName in yamlFiles)
         {
@@ -70,12 +78,22 @@ public class PublishCommand : CommandBase<PowerCommandsConfiguration>
             }
         }
 
-        if (!string.IsNullOrEmpty(nspace))
-        {
-            ShellService.Service.Execute("kubectl",$"config set-context --current --namespace={nspace}","", WriteLine,"", waitForExit: true);
-            nspace = $"-n {nspace}";
-        }
+        if (!string.IsNullOrEmpty(nspace)) ShellService.Service.Execute("kubectl",$"config set-context --current --namespace={nspace}","", WriteLine,"", waitForExit: true);
+        
+        ShellService.Service.Execute("kubectl", "get pods", dirInfo.FullName, WriteLine, "", waitForExit: true);
         ShellService.Service.Execute("kubectl", "get services", dirInfo.FullName, WriteLine, "", waitForExit: true);
-        return Ok();
+        ShellService.Service.Execute("kubectl", "get deployments", dirInfo.FullName, WriteLine, "", waitForExit: true);
+    }
+
+    private void UnPublish(string path, DirectoryInfo dirInfo, string nSpace)
+    {
+        if(!string.IsNullOrEmpty(nSpace)) ShellService.Service.Execute("kubectl",$"config set-context --current --namespace={nSpace}","", WriteLine,"", waitForExit: true);
+        var yamlFiles = Directory.GetFiles(path, "*.yaml").OrderByDescending(f => f).ToList();
+        foreach (var fileName in yamlFiles)
+        {
+            var fileInfo = new FileInfo(fileName);
+            ShellService.Service.Execute("kubectl",$"delete -f {fileInfo.FullName}",dirInfo.FullName, WriteLine,"", waitForExit: true);
+            WriteSuccessLine($"{fileInfo.Name} deleted OK");
+        }
     }
 }
