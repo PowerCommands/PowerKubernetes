@@ -1,4 +1,4 @@
-# PowerKubernetes
+# Power Kubernetes Client
 Kubernetes PowerCommands client that runs "on top" of your kubectl CLI tool, with the purpose to simplify standard things that could be hard to remember. The first thing you need to do is make sure that the startup project is the **PainKiller.PowerCommands.PowerCommandsConsole** project.
 
 ## Write standard kubectl commands
