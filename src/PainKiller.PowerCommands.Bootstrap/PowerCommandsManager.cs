@@ -4,7 +4,6 @@ using PainKiller.PowerCommands.Core.Commands;
 using PainKiller.PowerCommands.Core.Extensions;
 using PainKiller.PowerCommands.Core.Managers;
 using PainKiller.PowerCommands.Core.Services;
-using PainKiller.PowerCommands.KubernetesCommands.Commands;
 using PainKiller.PowerCommands.KubernetesCommands.Configuration;
 using PainKiller.PowerCommands.Shared.Contracts;
 using PainKiller.PowerCommands.Shared.DomainObjects.Configuration;
@@ -12,7 +11,7 @@ using PainKiller.PowerCommands.Shared.DomainObjects.Core;
 using PainKiller.PowerCommands.Shared.Enums;
 
 namespace PainKiller.PowerCommands.Bootstrap;
-public class PowerCommandsManager : IPowerCommandsManager
+public partial class PowerCommandsManager : IPowerCommandsManager
 {
     public readonly IExtendedPowerCommandServices<PowerCommandsConfiguration> Services;
     public PowerCommandsManager(IExtendedPowerCommandServices<PowerCommandsConfiguration> services) { Services = services; }
@@ -94,11 +93,5 @@ public class PowerCommandsManager : IPowerCommandsManager
             default:
                 break;
         }
-    }
-
-    private void RunCustomCode()
-    {
-        var kCommand = (KCommand)IPowerCommandsRuntime.DefaultInstance.Commands.First(c => c.Identifier == "k");
-        kCommand.InitializeCodeCompletion();
     }
 }
