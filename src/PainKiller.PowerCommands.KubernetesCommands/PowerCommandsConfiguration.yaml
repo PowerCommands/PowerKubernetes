@@ -8,6 +8,7 @@ configuration:
   defaultGitRepositoryPath: ..\..\..\..\..\  
   kubernetesDeploymentFilesRoot: ..\..\..\..\..\manifests\  
   pathToDockerDesktop: C:\Program Files\Docker\Docker
+  loginShellCommand: 
   metadata:
     name: PowerKubernetes
     description: kubectl client

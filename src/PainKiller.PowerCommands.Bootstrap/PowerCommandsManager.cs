@@ -4,6 +4,7 @@ using PainKiller.PowerCommands.Core.Commands;
 using PainKiller.PowerCommands.Core.Extensions;
 using PainKiller.PowerCommands.Core.Managers;
 using PainKiller.PowerCommands.Core.Services;
+using PainKiller.PowerCommands.KubernetesCommands.Commands;
 using PainKiller.PowerCommands.KubernetesCommands.Configuration;
 using PainKiller.PowerCommands.Shared.Contracts;
 using PainKiller.PowerCommands.Shared.DomainObjects.Configuration;
@@ -22,6 +23,7 @@ public class PowerCommandsManager : IPowerCommandsManager
         {
             try
             {
+                RunCustomCode();
                 var promptText = runFlow.CurrentRunResultStatus == RunResultStatus.Async ? "" : $"\n{ConfigurationGlobals.Prompt}";
                 runFlow.Raw = runFlow.RunAutomatedAtStartup ? string.Join(' ', args) : ReadLine.ReadLineService.Service.Read(prompt: promptText);
                 if (string.IsNullOrEmpty(runFlow.Raw.Trim())) continue;
@@ -92,5 +94,11 @@ public class PowerCommandsManager : IPowerCommandsManager
             default:
                 break;
         }
+    }
+
+    private void RunCustomCode()
+    {
+        var kCommand = (KCommand)IPowerCommandsRuntime.DefaultInstance.Commands.First(c => c.Identifier == "k");
+        kCommand.InitializeCodeCompletion();
     }
 }

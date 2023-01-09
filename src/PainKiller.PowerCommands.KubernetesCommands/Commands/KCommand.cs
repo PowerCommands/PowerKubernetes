@@ -1,11 +1,15 @@
+using PainKiller.PowerCommands.Core.Commands;
+
 namespace PainKiller.PowerCommands.KubernetesCommands.Commands;
 
 [PowerCommandTest(         tests: " ")]
 [PowerCommandDesign( description: "Description of your command...",
                          example: "demo")]
-public class KCommand : CommandBase<PowerCommandsConfiguration>
+public class KCommand : CdCommand
 {
     public KCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
+
+    public void InitializeCodeCompletion() => ShowDirectories(showOutput: false);
 
     public override RunResult Run()
     {

@@ -6,4 +6,5 @@ public class PowerCommandsConfiguration : CommandsConfiguration
     public string DefaultGitRepositoryPath { get; set; } = "C:\\repo";
     public string KubernetesDeploymentFilesRoot { get; set; } = "";
     public string PathToDockerDesktop { get; set; } = "";
+    public string LoginShellCommand { get; set; } = "";
 }
