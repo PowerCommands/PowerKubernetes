@@ -5,12 +5,9 @@ namespace PainKiller.PowerCommands.KubernetesCommands.Commands;
 [PowerCommandTest(         tests: " ")]
 [PowerCommandDesign( description: "Description of your command...",
                          example: "demo")]
-public class KCommand : CdCommand
+public class KCommand : CdCommand, IWorkingDirectoryChangesListener
 {
     public KCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
-
-    public void InitializeCodeCompletion() => ShowDirectories(showOutput: false);
-
     public override RunResult Run()
     {
         //https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.processstartinfo.redirectstandardoutput?redirectedfrom=MSDN&view=net-7.0#System_Diagnostics_ProcessStartInfo_RedirectStandardOutput
