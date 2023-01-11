@@ -5,8 +5,9 @@ using PainKiller.PowerCommands.Core.Commands;
 namespace PainKiller.PowerCommands.KubernetesCommands.Commands;
 
 [PowerCommandDesign( description: "Publish your kubernetes application(s)",
+                       arguments: "<directory name> where your manifests is located",
                          options: "!file|delete|!namespace",
-                         example: "publish dashboard")]
+                         example: "//Navigate to the directory where the directory (in this example named dashboard) to your manifest is|publish dashboard")]
 public class PublishCommand : CdCommand, IWorkingDirectoryChangesListener
 {
     public PublishCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
