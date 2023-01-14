@@ -11,19 +11,15 @@ k config set-context --current --namespace=default
 ## Publish
 With this commando you can publish or delete your kubernetes "projects". A project in this context means a bunch of kubernetes manifest files in yaml format and if you want a bunch of PowerCommand specific files to run kubectl commands, for example to start port forwarding proxy or open a browser with a specific url. They are group together by you or someone else because they should be deployed together for som reason.
 
-If you have clone this repo and started your [Power Kubernetes Client](./src/) you can start with find out witch projects you have by running this command.
+If you have clone this repo and started your [Power Kubernetes Client](./src/) you can start with find out witch projects you have by first navigate (with command cd) to your manifests directory and then run this command.
 ```
 publish
 ```
 This will you give you something like this as an result.
-```
-Kubernetes projects
-argocd
-dashboard
-minio
-worker-service
-```
-The first line is a header, witch will be in a nice blue color. Let´s try to publish the dashboard project, run this command:
+
+![Alt text](/docs/images/publish_navigate.png?raw=true "Navigate to manifests")
+
+Note that I have stored a bookmark to the manifests directory in the **PowerCommandsConfiguration.yaml** file and using that with the ```cd``` command to navigate faster. Now that the Power Kubernetes client has the right working directory, now you can run this command to publish something, lets publish the Dashboard.
 ```
 publish dashboard
 ```
@@ -62,14 +58,21 @@ Make sure that the path to your Docker Desktop installation is correct in the **
 ## PowerCommandsConfiguration.yaml
 The configuration file is located in the [PainKiller.PowerCommands.KubernetesCommands](./src/PainKiller.PowerCommands.KubernetesCommands/) project and it set to overwrite the existing one every time the projects is built. There are some configurations in this file that is good to know a little bit more about.
 ```
-kubernetesDeploymentFilesRoot: ..\..\..\..\..\manifests\  
 pathToDockerDesktop: C:\Program Files\Docker\Docker
+bookmark:
+    bookmarks:
+    - name: manifests
+      path: C:\Repos\Github\PowerKubernetes\manifests
+      index: 0
 ```
-### kubernetesDeploymentFilesRoot
-This is the starting point for kubernetes projects, you are free to change it if you want to store your manifest elsewhere.
 ### pathToDockerDesktop
 Not that important, but if you do not start Docker Desktop when you starting your computer and want to start it with the Power Kubernetes Client ```start``` command this configuration must be the path to your Docker Desktop installation directory.
-
+### bookmark
+Here you can place "bookmarks" to your favorite places on your disk, you can navigate to them with the ```cd``` command using the --bookmark option and use name or the index, like this (both examples will work just the same).
+```
+cd --bookmark 0
+cd --bookmark manifests
+```
 ## Project manifest yaml files
 Lets have a look at the files in the [manifests/minio](./manifests/minio/) directory.
 ```
