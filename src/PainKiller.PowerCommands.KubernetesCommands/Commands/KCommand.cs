@@ -5,7 +5,7 @@ namespace PainKiller.PowerCommands.KubernetesCommands.Commands;
 [PowerCommandTest(         tests: " ")]
 [PowerCommandDesign( description: "Description of your command...",
                          example: "demo")]
-public class KCommand : CdCommand, IWorkingDirectoryChangesListener
+public class KCommand : CdCommand
 {
     public KCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
     public override RunResult Run()

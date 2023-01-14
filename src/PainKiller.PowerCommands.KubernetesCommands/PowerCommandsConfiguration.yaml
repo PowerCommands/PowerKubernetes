@@ -31,3 +31,6 @@ configuration:
     - name: manifests
       path: C:\Repos\Github\PowerKubernetes\manifests
       index: 0
+    - name: tutorial
+      path: C:\Repos\Github\KubernetesTutorials\manifests
+      index: 1
