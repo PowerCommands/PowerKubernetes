@@ -21,6 +21,8 @@ public class DiskCommand : CommandBase<PowerCommandsConfiguration>
 
         var details = rows.Select(r => new StorageDetailItem(r)).Where(s => !string.IsNullOrEmpty(s.Name)).ToList();
         ConsoleTableService.RenderTable(details, this);
+        var total = (int)details.Sum(d => d.CapacityMegabytes) / 1024;
+        WriteCodeExample("Total", $"{total} GB");
         return Ok();
     }
 }

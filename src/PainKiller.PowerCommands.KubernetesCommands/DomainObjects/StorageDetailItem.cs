@@ -13,6 +13,7 @@ public class StorageDetailItem
     }
     public string Name { get; set; }
     public string Capacity { get; set; }
+    public decimal CapacityMegabytes => Capacity.Trim().EndsWith("Gi") ? string.IsNullOrEmpty(Capacity) ? 0 : Convert.ToDecimal(Capacity.Replace("Gi", "").Trim())*1024 : string.IsNullOrEmpty(Capacity) ? 0 : Convert.ToDecimal(Capacity.Replace("Mi", "").Trim());
     public string Claim { get; set; }
     public string Status { get; set; }
 }
