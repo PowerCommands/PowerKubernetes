@@ -12,7 +12,6 @@ public class DiskCommand : CommandBase<PowerCommandsConfiguration>
 
     public override RunResult Run()
     {
-        var nSpaceName = Input.SingleArgument;
         WriteCodeExample("kubectl",$"get pv --sort-by=.spec.capacity.storage");
         ShellService.Service.Execute("kubectl",$"get pv --sort-by=.spec.capacity.storage","", ReadLine,"", waitForExit: true);
         var response = LastReadLine;
