@@ -8,6 +8,7 @@ configuration:
   defaultGitRepositoryPath: ..\..\..\..\..\      
   pathToDockerDesktop: C:\Program Files\Docker\Docker
   loginShellCommand: 
+  goFireflyioAiacDockerImage: ghcr.io/gofireflyio/aiac
   metadata:
     name: PowerKubernetes
     description: kubectl client
@@ -34,3 +35,7 @@ configuration:
     - name: tutorial
       path: C:\Repos\Github\KubernetesTutorials\manifests
       index: 1
+  environment:
+    variables:
+    - name: aiac
+      environmentVariableTarget: User

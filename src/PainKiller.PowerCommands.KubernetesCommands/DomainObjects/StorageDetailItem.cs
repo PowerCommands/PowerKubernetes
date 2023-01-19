@@ -11,9 +11,9 @@ public class StorageDetailItem
         Status = cols[4];
         Claim = cols[5];
     }
-    public string Name { get; set; }
-    public string Capacity { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Capacity { get; set; }  = string.Empty;
     public decimal CapacityMegabytes => Capacity.Trim().EndsWith("Gi") ? string.IsNullOrEmpty(Capacity) ? 0 : Convert.ToDecimal(Capacity.Replace("Gi", "").Trim())*1024 : string.IsNullOrEmpty(Capacity) ? 0 : Convert.ToDecimal(Capacity.Replace("Mi", "").Trim());
-    public string Claim { get; set; }
-    public string Status { get; set; }
+    public string Claim { get; set; } = string.Empty;
+    public string Status { get; set; } = string.Empty;
 }
