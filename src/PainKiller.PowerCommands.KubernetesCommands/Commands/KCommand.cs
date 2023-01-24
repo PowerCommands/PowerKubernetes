@@ -3,6 +3,7 @@ namespace PainKiller.PowerCommands.KubernetesCommands.Commands;
 
 [PowerCommandTest(         tests: " ")]
 [PowerCommandDesign( description: "Run kubectl commands using the alias k",
+              overrideHelpOption: true,
                          example: "k")]
 public class KCommand : MasterCommando
 {
