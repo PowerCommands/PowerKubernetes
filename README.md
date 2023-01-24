@@ -95,7 +95,7 @@ The yaml file is kubernetes manifest files that will be run ```kubectl apply -f 
 You must have set up your environment so that you have a valid kubectl client, I have tried this with a Docker Desktop kubectl client and with the client that VMware developed for their Tanzu kubernetes platform.
 
 ### Process metadata files (or what about the *.json files?)
-When you are setting up a kubernetes project locally on your machine to try new exiting kubernetes deployments you always end up with some actions that you need to take after the kubernetes manifest files is deployed to the cluster. You may need to port forwarding, decode some default secret, start your browser with a specific url. 
+When you are setting up a kubernetes project locally on your machine to try new exciting kubernetes deployments you always end up with some actions that you need to take after the kubernetes manifest files is deployed to the cluster. You may need to port forwarding, decode some default secret, start your browser with a specific url. 
 
 All this stuff you define in a Power Kubernetes specific file that I call **process metadata files**, they are not only intended to use with this Power Command Client, it could be used with any [Power Commands](https://github.com/PowerCommands/PowerCommands2022) project. 
 
