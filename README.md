@@ -6,6 +6,13 @@ You write kubectl commands with the alias k just like any console application li
 ```
 k config set-context --current --namespace=default
 ```
+## Write standard docker commands
+I am running my kubernetes kluster with Docker Desktop, sometimes it is useful to just run a docker container, therefore I have also added that opportunity just run docker commands as you would in a cmd prompt. 
+
+If you just like me run Docker Desktop you can start that service with this commando (you need to have the path setup properly in the config file). (I don't start Docker Desktop when the machine start to safe some CPU and memory consumption.)
+```
+dockerdesktop
+```
 ## Bonus commandos
 
 ## Publish
