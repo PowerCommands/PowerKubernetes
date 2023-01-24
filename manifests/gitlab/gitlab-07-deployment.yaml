@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gitlab-config
+data:
+  gitlab.rb: |
+    external_url 'http://localhost:30080'
+    gitlab_rails['gitlab_shell_ssh_port'] = 2224
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gitlab-secret
+data:
+  gitlab-root-password: YmFiYXIzMjE=
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitlab
+spec:
+  selector:
+    matchLabels:
+      app: gitlab
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gitlab
+    spec:
+      volumes:
+      - name: config
+        configMap:
+          name: gitlab-config
+      - name: secrets
+        secret:
+          secretName: gitlab-secret
+      containers:
+      - name: gitlab
+        image: gitlab/gitlab-ce:latest
+        env:
+        - name: GITLAB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: gitlab-secret
+              key: gitlab-root-password
+        - name: DB_TYPE
+          value: mssql
+        - name: DB_HOST
+          value: gitlab-mssql
+        - name: DB_PORT
+          value: "1433"
+        - name: DB_NAME
+          value: gitlabhq_production
+        - name: DB_USER
+          value: sa
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: mssql-sample-secret
+              key: SA_PASSWORD
+        volumeMounts:
+        - name: config
+          mountPath: /etc/gitlab
+        - name: secrets
+          mountPath: /run/secrets
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitlab
+spec:
+  selector:
+    app: gitlab
+  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+    nodePort: 30080
+  - name: ssh
+    port: 2224
+    targetPort: 22

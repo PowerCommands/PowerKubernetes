@@ -1,11 +1,11 @@
 namespace PainKiller.PowerCommands.KubernetesCommands.Commands;
 
 [PowerCommandTest(         tests: " ")]
-[PowerCommandDesign( description: "Description of your command...",
-                         example: "demo")]
-public class StartCommand : CommandBase<PowerCommandsConfiguration>
+[PowerCommandDesign( description: "Start Docker Desktop",
+    example: "dockerdesktop")]
+public class DockerDesktopCommand : CommandBase<PowerCommandsConfiguration>
 {
-    public StartCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
+    public DockerDesktopCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
 
     public override RunResult Run()
     {

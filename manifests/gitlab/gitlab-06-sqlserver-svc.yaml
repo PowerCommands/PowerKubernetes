@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitlab-mssql
+spec:
+  selector:
+    app: gitlab-mssql
+  ports:
+  - name: mssql
+    port: 1433
+    targetPort: 1433

@@ -1,20 +1,10 @@
 using PainKiller.PowerCommands.Core.Commands;
-
 namespace PainKiller.PowerCommands.KubernetesCommands.Commands;
 
 [PowerCommandTest(         tests: " ")]
-[PowerCommandDesign( description: "Description of your command...",
+[PowerCommandDesign( description: "Run kubectl commands using the alias k",
                          example: "k")]
-public class KCommand : CdCommand
+public class KCommand : MasterCommando
 {
-    public KCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration) { }
-    public override RunResult Run()
-    {
-        //https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.processstartinfo.redirectstandardoutput?redirectedfrom=MSDN&view=net-7.0#System_Diagnostics_ProcessStartInfo_RedirectStandardOutput
-        //https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.processstartinfo.redirectstandardinput?redirectedfrom=MSDN&view=net-7.0#System_Diagnostics_ProcessStartInfo_RedirectStandardInput
-
-        ShellService.Service.Execute("kubectl", Input.Raw.Replace($"{Input.Identifier} ","").Replace("--no-quit",""), WorkingDirectory, ReadLine, "", waitForExit: true);
-        if (!string.IsNullOrEmpty(LastReadLine)) WriteLine(LastReadLine);
-        return Ok();
-    }
+    public KCommand(string identifier, PowerCommandsConfiguration configuration) : base(identifier, configuration, alias: "kubectl") { }
 }
