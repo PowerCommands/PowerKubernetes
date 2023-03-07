@@ -11,6 +11,7 @@ public class DockerDesktopCommand : CommandBase<PowerCommandsConfiguration>
     {
         var fullFileName = Path.Combine(Configuration.PathToDockerDesktop, "Docker Desktop.exe");
         ShellService.Service.Execute(fullFileName, arguments: "", workingDirectory: "", WriteLine, fileExtension: "");
+        WriteSuccessLine("Docker Desktop started");
         return Ok();
     }
 }
