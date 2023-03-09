@@ -3,7 +3,7 @@ using PainKiller.PowerCommands.Core.Commands;
 namespace PainKiller.PowerCommands.KubernetesCommands.Commands;
 
 [PowerCommandDesign( description: "Setup a new instance of MinIO with Docker Desktop",
-                         options: "remove",
+                         options: "open|remove",
                          example: "minio")]
 public class MinioCommand : CommandBase<PowerCommandsConfiguration>
 {
@@ -13,6 +13,7 @@ public class MinioCommand : CommandBase<PowerCommandsConfiguration>
     {
         var containerName = "minio1";
         if(HasOption("remove")) Remove(containerName);
+        else if(HasOption("open")) ShellService.Service.OpenWithDefaultProgram("http://localhost:9000");
         else
         {
             var path = Path.Combine(ConfigurationGlobals.ApplicationDataFolder, "Docker", "data");

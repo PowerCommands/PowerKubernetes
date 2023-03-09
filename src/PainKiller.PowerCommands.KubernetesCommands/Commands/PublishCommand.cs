@@ -97,7 +97,11 @@ public class PublishCommand : CdCommand
                 var token = processMetadata.Base64Decode ?  Encoding.UTF8.GetString(Convert.FromBase64String(LastReadLine)) : LastReadLine;
                 Console.WriteLine(token);
             }
-            else ShellService.Service.Execute(applicationName, processMetadata.Args, WorkingDirectory, WriteLine, "", waitForExit: processMetadata.WaitForExit, useShellExecute: processMetadata.UseShellExecute, disableOutputLogging: processMetadata.DisableOutputLogging);
+            else
+            {
+                var replacePlaceHolderArgs = processMetadata.Args.Replace("%LAST_READ_LINE%", LastReadLine);
+                ShellService.Service.Execute(applicationName, replacePlaceHolderArgs, WorkingDirectory, WriteLine, "", waitForExit: processMetadata.WaitForExit, useShellExecute: processMetadata.UseShellExecute, disableOutputLogging: processMetadata.DisableOutputLogging);
+            }
         }
         else
         {
