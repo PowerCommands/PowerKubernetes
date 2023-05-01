@@ -7,8 +7,7 @@ configuration:
   backupPath: ..\..\..\..\Core\PainKiller.PowerCommands.Core\  
   defaultGitRepositoryPath: ..\..\..\..\..\      
   pathToDockerDesktop: C:\Program Files\Docker\Docker
-  loginShellCommand: 
-  goFireflyioAiacDockerImage: ghcr.io/gofireflyio/aiac
+  loginShellCommand:   
   metadata:
     name: PowerKubernetes
     description: kubectl client
