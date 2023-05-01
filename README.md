@@ -49,17 +49,45 @@ You could change namespace for the current context like this:
 ```
 namespace argocd
 ```
+## Start Docker Desktop
+With the start command you make sure that the Docker Desktop service is running so that your kubernetes cluster is available.
+```
+dockerdesktop
+```
+Make sure that the path to your Docker Desktop installation is correct in the **PowerCommandsConfiguration.yaml** file.
 ## Base64
 To encode a stored kubernetes secret you can use this command, the example is for ArgoCD, the context namespace must be argocd, used the namespace commando from the example above.
 ```
 base64 --secret argocd-initial-admin-secret --data password
 ```
-## Start Docker Desktop
-With the start command you make sure that the Docker Desktop service is running so that your kubernetes cluster is available.
+## Kubeseal
+Kubernetes base64 encode secrets is not that secure at all, you should use encryption, I use Kubeseal for that.
+I have built a simple Kubeseal command just for the basics, you need to add a Kubeseal Client and setup the correct Path first to use the **kubeseal** PowerCommand.
+
+Before you could seal your secrets, you need to add the Kubeseal controller to your Kubernetes kluster, you can do that with this PowerCommand:
 ```
-start
+kubeseal --initialize-control-plane
 ```
-Make sure that the path to your Docker Desktop installation is correct in the **PowerCommandsConfiguration.yaml** file.
+Now you are ready to seal secrets, lets say that you have a secrets.yaml file that looks like this:
+```
+apiVersion: v1
+kind: Secret
+metadata:
+  creationTimestamp: null
+  name: my-secret
+  namespace: test-ns
+data:
+  password: cG9zdGdyZXM=
+  username: YWRtaW5AcG9zdGdyZXM= 
+```
+The secrets must be correct base64 encoded so that Kubeseal can encrypt them. 
+Navigate to the folder containing the **secrets.yaml** file and then just run this command:
+```
+kubeseal --seal secrets.yaml
+```
+This will create a file named **secrets_sealed.yaml** in the same directory, just deploy that file as you would deploy any file, the **kubeseal** kubernetes controller will handle the decryption of the encrypted value.
+
+Read more about this here [How to Encrypt Kubernetes Secrets with Sealed Secrets](https://blog.knoldus.com/how-to-encrypt-kubernetes-secrets-with-sealed-secrets/)
 
 # Configuration
 ## PowerCommandsConfiguration.yaml
@@ -80,6 +108,7 @@ Here you can place "bookmarks" to your favorite places on your disk, you can nav
 cd --bookmark 0
 cd --bookmark manifests
 ```
+0 is the default index so you could omit that and use ```cd --bookmark``` 
 ## Project manifest yaml files
 Lets have a look at the files in the [manifests/minio](./manifests/minio/) directory.
 ```

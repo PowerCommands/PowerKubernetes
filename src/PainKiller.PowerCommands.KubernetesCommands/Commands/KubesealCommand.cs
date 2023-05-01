@@ -6,7 +6,7 @@ namespace PainKiller.PowerCommands.KubernetesCommands.Commands;
 [PowerCommandDesign( description: "Run kubeseal commands",
                          options: "seal|output-certificate|initialize-control-plane|sleep-time",
               overrideHelpOption: true,
-                         example: "kubeseal")]
+                         example: "//Setup kubeseal controller in your kubernetes kluster|kubeseal initialize-control-plane|//Seal your secrets in file secret.yaml|kubeseal --seal secret.yaml")]
 public class KubesealCommand : MasterCommando
 {
     private static string _lastCertificate = "";
