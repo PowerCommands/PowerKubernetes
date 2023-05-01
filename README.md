@@ -13,6 +13,10 @@ If you just like me run Docker Desktop you can start that service with this comm
 ```
 dockerdesktop
 ```
+When Docker desktop has started you can run any docker command, for example this command to show running containers.
+```
+docker ps
+```
 ## Bonus commandos
 
 ## Publish
@@ -49,12 +53,7 @@ You could change namespace for the current context like this:
 ```
 namespace argocd
 ```
-## Start Docker Desktop
-With the start command you make sure that the Docker Desktop service is running so that your kubernetes cluster is available.
-```
-dockerdesktop
-```
-Make sure that the path to your Docker Desktop installation is correct in the **PowerCommandsConfiguration.yaml** file.
+# Security
 ## Base64
 To encode a stored kubernetes secret you can use this command, the example is for ArgoCD, the context namespace must be argocd, used the namespace commando from the example above.
 ```
