@@ -7,6 +7,7 @@ configuration:
   backupPath: ..\..\..\..\Core\PainKiller.PowerCommands.Core\  
   defaultGitRepositoryPath: ..\..\..\..\..\      
   pathToDockerDesktop: C:\Program Files\Docker\Docker
+  dockerHubUserName: dockerdoktor
   loginShellCommand:   
   metadata:
     name: PowerKubernetes
