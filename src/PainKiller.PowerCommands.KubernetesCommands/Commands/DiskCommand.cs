@@ -15,7 +15,7 @@ public class DiskCommand : CommandBase<PowerCommandsConfiguration>
         WriteCodeExample("kubectl",$"get pv --sort-by=.spec.capacity.storage");
         ShellService.Service.Execute("kubectl",$"get pv --sort-by=.spec.capacity.storage","", ReadLine,"", waitForExit: true);
         var response = LastReadLine;
-        var rows = response.Split('\n').Skip(1).ToList();
+        var rows = response.Split('\n').Skip(1).Reverse().ToList();
         if (rows.Count <= 0) return Ok();
 
         var details = rows.Select(r => new StorageDetailItem(r)).Where(s => !string.IsNullOrEmpty(s.Name)).ToList();
