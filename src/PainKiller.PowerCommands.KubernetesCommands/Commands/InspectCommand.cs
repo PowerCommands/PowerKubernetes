@@ -30,7 +30,6 @@ public class InspectCommand : CommandBase<PowerCommandsConfiguration>
         if(showRawData) WriteLine(LastReadLine);
         
         ShellService.Service.Execute("docker", $"trust key load {keyName}.pub", Path.Combine(ConfigurationGlobals.ApplicationDataFolder, "powerkubernetes\\docker"), ReadLine, "", waitForExit: true);
-        //ShellService.Service.Execute("docker", $"trust key load {keyName}.key", Path.Combine(ConfigurationGlobals.ApplicationDataFolder, "powerkubernetes\\docker"), ReadLine, "", waitForExit: true);
         WriteLine(LastReadLine);
         ShellService.Service.Execute("docker", $"trust inspect {imageName}", AppContext.BaseDirectory, ReadLine, "", waitForExit: true);
         var jsonData = $"{{ \"Signatures\": {LastReadLine}}}";
