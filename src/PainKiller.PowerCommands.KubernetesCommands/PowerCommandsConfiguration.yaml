@@ -7,7 +7,7 @@ configuration:
   backupPath: ..\..\..\..\Core\PainKiller.PowerCommands.Core\  
   defaultGitRepositoryPath: ..\..\..\..\..\      
   pathToDockerDesktop: C:\Program Files\Docker\Docker
-  dockerHubUserName: dockerdoktor
+  dockerHubRepo: dockerdoktor
   loginShellCommand:   
   metadata:
     name: PowerKubernetes
@@ -32,9 +32,12 @@ configuration:
     - name: manifests
       path: C:\Repos\Github\PowerKubernetes\manifests
       index: 0
+    - name: docker
+      path: $ROAMING$\powerkubernetes\docker
+      index: 1
     - name: tutorial
       path: C:\Repos\Github\KubernetesTutorials\manifests
-      index: 1
+      index: 2
   environment:
     variables:
     - name: aiac

@@ -49,7 +49,7 @@ public class SignatureCommand : CommandBase<PowerCommandsConfiguration>
             }
             SecretManager.CreateSecret(Configuration, $"docker_key_pair_{keyName}");
         }
-        ShellService.Service.Execute("docker", $"trust signer add {Configuration.DockerHubUserName} {repoName}/{dockerImageName} --key {keyName}.pub", directory, ReadLine, "");
+        ShellService.Service.Execute("docker", $"trust signer add {Configuration.DockerHubRepo} {repoName}/{dockerImageName} --key {keyName}.pub", directory, ReadLine, "");
         ShellService.Service.Execute("docker", $"trust sign {repoName}/{dockerImageName}:{tagName}", directory, ReadLine, "");
         if(storeSecrets) SecretManager.CreateSecret(Configuration, $"docker_repo_{keyName}");
         if(storeSecrets) SecretManager.CreateSecret(Configuration, $"docker_root_{keyName}");
