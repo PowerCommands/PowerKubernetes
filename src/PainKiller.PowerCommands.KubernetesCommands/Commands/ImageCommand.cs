@@ -20,15 +20,18 @@ public class ImageCommand : CdCommand
         if(HasOption("build")) BuildImage(imageName);
         else if(HasOption("sign")) WriteSignature(imageName);
         else if(HasOption("search")) SearchImage(imageName);
+        else if(HasOption("delete")) DeleteImage(imageName);
         return Ok();
     }
 
     private void WriteSignature(string imageName)
     {
-        var signatureManager = new SignatureManager(this, _configuration, WorkingDirectory);
+        var signatureManager = new SignatureManager(this, _configuration);
         signatureManager.WriteSignature(imageName);
     }
     private void BuildImage(string imageName) => ShellService.Service.Execute("docker", $"build -t {_configuration.DockerHubRepo}/{imageName} .", WorkingDirectory, WriteLine, "", useShellExecute: true);
+
+    private void DeleteImage(string imageName) => ShellService.Service.Execute("docker", $"rmi {_configuration.DockerHubRepo}/{imageName} .", WorkingDirectory, WriteLine, "", useShellExecute: true);
 
     private void SearchImage(string imageName)
     {

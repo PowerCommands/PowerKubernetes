@@ -31,7 +31,7 @@ public class InspectCommand : CommandBase<PowerCommandsConfiguration>
         
         ShellService.Service.Execute("docker", $"trust key load {keyName}.pub", Path.Combine(ConfigurationGlobals.ApplicationDataFolder, "powerkubernetes\\docker"), ReadLine, "", waitForExit: true);
         WriteLine(LastReadLine);
-        ShellService.Service.Execute("docker", $"trust inspect {imageName}", AppContext.BaseDirectory, ReadLine, "", waitForExit: true);
+        ShellService.Service.Execute("docker", $"trust inspect --pretty {imageName}", AppContext.BaseDirectory, ReadLine, "", waitForExit: true);
         var jsonData = $"{{ \"Signatures\": {LastReadLine}}}";
         var imageKeysMetadata = JsonSerializer.Deserialize<ImageKeysMetadata>(jsonData) ?? new ImageKeysMetadata();
         foreach (var signature in imageKeysMetadata.Signatures)
