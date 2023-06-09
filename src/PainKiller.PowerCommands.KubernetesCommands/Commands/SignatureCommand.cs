@@ -53,6 +53,6 @@ public class SignatureCommand : CommandBase<PowerCommandsConfiguration>
         ShellService.Service.Execute("docker", $"trust sign {repoName}/{dockerImageName}:{tagName}", directory, ReadLine, "");
         if(storeSecrets) SecretManager.CreateSecret(Configuration, $"docker_repo_{keyName}");
         if(storeSecrets) SecretManager.CreateSecret(Configuration, $"docker_root_{keyName}");
-        ShellService.Service.Execute("docker", $"docker push {repoName}:{tagName}", directory, ReadLine, "");
+        ShellService.Service.Execute("docker", $"push {repoName}:{tagName}", directory, ReadLine, "");
     }
 }
